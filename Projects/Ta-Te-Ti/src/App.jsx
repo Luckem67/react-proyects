@@ -60,6 +60,10 @@ function App() {
     setWinner(null)
   }
 
+  const checkEndGame = (newBoard) => {
+    return newBoard.every((Square) => Square !== null)
+  }
+
   const updateBoard = (index) => {
     if(board[index] || winner) return 
 
@@ -72,25 +76,25 @@ function App() {
 
     const newWinner = checkWinner(newBoard)
     if(newWinner) {
-      setWinner(() => {
-        console.log(`GANADOR: ${newWinner}`)
-        return newWinner
-      })
+      setWinner(newWinner)
+    }else if(checkEndGame(newBoard)){
+      setWinner(false)
     }
   }
 
   return (
     <main className='board'>
       <h1> Ta-Te-Ti </h1>
+      <button onClick={resetGame}>Reset</button>
       <section className='game'>{
-        board.map((_, index) =>{
+        board.map((square, index) =>{
           return (
             <Square 
               key={index}
               index={index}
               updateBoard={updateBoard}
             >
-              {board[index]}
+              {square}
             </Square>
           )
         })
